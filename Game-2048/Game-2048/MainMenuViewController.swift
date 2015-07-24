@@ -30,8 +30,8 @@ class MainMenuViewController: UIViewController {
         if let segueIdentifier = segue.identifier {
             switch SegueIdentifier(rawValue: segueIdentifier)! {
             case .NewGame:
-                let highScore = NSUserDefaults.standardUserDefaults().highScore()
                 let gameViewController = segue.destinationViewController as! GameViewController
+                gameViewController.highScore = NSUserDefaults.standardUserDefaults().highScore()
             }
         }
     }

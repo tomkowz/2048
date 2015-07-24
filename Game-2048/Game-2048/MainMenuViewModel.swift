@@ -16,10 +16,6 @@ class MainMenuViewModel {
     }
     
     var highScoreText: NSAttributedString {
-        let pointsString = "\(points)"
-        let text = "HIGH SCORE: \(points)"
-        let attributed = NSMutableAttributedString(string: text)
-        attributed.setAttributes([NSForegroundColorAttributeName: AppColor.Yellow.color], range: NSMakeRange(count(text) - count(pointsString), count(pointsString)))
-        return attributed
+        return NSMutableAttributedString.scoreDescription("HIGH SCORE", points: points)
     }
 }
