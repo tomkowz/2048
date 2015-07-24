@@ -8,12 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		6D98D5031B62F05500B016AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D98D5021B62F05500B016AE /* AppDelegate.swift */; };
-		6D98D5051B62F05500B016AE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D98D5041B62F05500B016AE /* ViewController.swift */; };
+		6D98D5051B62F05500B016AE /* MainMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D98D5041B62F05500B016AE /* MainMenuViewController.swift */; };
 		6D98D5081B62F05500B016AE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D98D5061B62F05500B016AE /* Main.storyboard */; };
 		6D98D50A1B62F05500B016AE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6D98D5091B62F05500B016AE /* Images.xcassets */; };
 		6D98D50D1B62F05500B016AE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D98D50B1B62F05500B016AE /* LaunchScreen.xib */; };
 		6D98D5191B62F05500B016AE /* Game_2048Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D98D5181B62F05500B016AE /* Game_2048Tests.swift */; };
-		6D98D5231B62F58000B016AE /* UIColor+2048Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D98D5221B62F58000B016AE /* UIColor+2048Colors.swift */; };
+		6D98D5231B62F58000B016AE /* AppColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D98D5221B62F58000B016AE /* AppColor.swift */; };
+		6D98D5251B62F78400B016AE /* UIButton+2048Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D98D5241B62F78400B016AE /* UIButton+2048Style.swift */; };
+		6D98D5271B62FAB800B016AE /* NSUserDefaults+Scores.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D98D5261B62FAB800B016AE /* NSUserDefaults+Scores.swift */; };
+		6D98D5291B62FC0600B016AE /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D98D5281B62FC0600B016AE /* GameViewController.swift */; };
+		6D98D52E1B62FC4900B016AE /* MainMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D98D52D1B62FC4900B016AE /* MainMenuViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,14 +34,18 @@
 		6D98D4FD1B62F05500B016AE /* Game-2048.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Game-2048.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D98D5011B62F05500B016AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6D98D5021B62F05500B016AE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		6D98D5041B62F05500B016AE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		6D98D5041B62F05500B016AE /* MainMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuViewController.swift; sourceTree = "<group>"; };
 		6D98D5071B62F05500B016AE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6D98D5091B62F05500B016AE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		6D98D50C1B62F05500B016AE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		6D98D5121B62F05500B016AE /* Game-2048Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Game-2048Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D98D5171B62F05500B016AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6D98D5181B62F05500B016AE /* Game_2048Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game_2048Tests.swift; sourceTree = "<group>"; };
-		6D98D5221B62F58000B016AE /* UIColor+2048Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+2048Colors.swift"; sourceTree = "<group>"; };
+		6D98D5221B62F58000B016AE /* AppColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppColor.swift; sourceTree = "<group>"; };
+		6D98D5241B62F78400B016AE /* UIButton+2048Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+2048Style.swift"; sourceTree = "<group>"; };
+		6D98D5261B62FAB800B016AE /* NSUserDefaults+Scores.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSUserDefaults+Scores.swift"; sourceTree = "<group>"; };
+		6D98D5281B62FC0600B016AE /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		6D98D52D1B62FC4900B016AE /* MainMenuViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,12 +88,10 @@
 			isa = PBXGroup;
 			children = (
 				6D98D5021B62F05500B016AE /* AppDelegate.swift */,
-				6D98D5041B62F05500B016AE /* ViewController.swift */,
-				6D98D5061B62F05500B016AE /* Main.storyboard */,
-				6D98D5091B62F05500B016AE /* Images.xcassets */,
-				6D98D50B1B62F05500B016AE /* LaunchScreen.xib */,
+				6D98D52A1B62FC1400B016AE /* Features */,
+				6D98D5301B62FC6700B016AE /* Services */,
+				6D98D52F1B62FC5F00B016AE /* Resources */,
 				6D98D5001B62F05500B016AE /* Supporting Files */,
-				6D98D5221B62F58000B016AE /* UIColor+2048Colors.swift */,
 			);
 			path = "Game-2048";
 			sourceTree = "<group>";
@@ -113,6 +119,52 @@
 				6D98D5171B62F05500B016AE /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6D98D52A1B62FC1400B016AE /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				6D98D52B1B62FC2500B016AE /* Main Menu */,
+				6D98D52C1B62FC2A00B016AE /* Gameplay */,
+			);
+			name = Features;
+			sourceTree = "<group>";
+		};
+		6D98D52B1B62FC2500B016AE /* Main Menu */ = {
+			isa = PBXGroup;
+			children = (
+				6D98D5041B62F05500B016AE /* MainMenuViewController.swift */,
+				6D98D52D1B62FC4900B016AE /* MainMenuViewModel.swift */,
+			);
+			name = "Main Menu";
+			sourceTree = "<group>";
+		};
+		6D98D52C1B62FC2A00B016AE /* Gameplay */ = {
+			isa = PBXGroup;
+			children = (
+				6D98D5281B62FC0600B016AE /* GameViewController.swift */,
+			);
+			name = Gameplay;
+			sourceTree = "<group>";
+		};
+		6D98D52F1B62FC5F00B016AE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6D98D5061B62F05500B016AE /* Main.storyboard */,
+				6D98D5091B62F05500B016AE /* Images.xcassets */,
+				6D98D50B1B62F05500B016AE /* LaunchScreen.xib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		6D98D5301B62FC6700B016AE /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				6D98D5221B62F58000B016AE /* AppColor.swift */,
+				6D98D5241B62F78400B016AE /* UIButton+2048Style.swift */,
+				6D98D5261B62FAB800B016AE /* NSUserDefaults+Scores.swift */,
+			);
+			name = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -215,9 +267,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D98D5051B62F05500B016AE /* ViewController.swift in Sources */,
-				6D98D5231B62F58000B016AE /* UIColor+2048Colors.swift in Sources */,
+				6D98D5051B62F05500B016AE /* MainMenuViewController.swift in Sources */,
+				6D98D5231B62F58000B016AE /* AppColor.swift in Sources */,
+				6D98D5271B62FAB800B016AE /* NSUserDefaults+Scores.swift in Sources */,
 				6D98D5031B62F05500B016AE /* AppDelegate.swift in Sources */,
+				6D98D5291B62FC0600B016AE /* GameViewController.swift in Sources */,
+				6D98D52E1B62FC4900B016AE /* MainMenuViewModel.swift in Sources */,
+				6D98D5251B62F78400B016AE /* UIButton+2048Style.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

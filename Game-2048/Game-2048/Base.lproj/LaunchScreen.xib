@@ -11,12 +11,12 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="8QU-8b-fXD">
-                    <rect key="frame" x="188" y="190" width="105" height="100"/>
+                    <rect key="frame" x="188" y="220" width="105" height="100"/>
                 </imageView>
             </subviews>
             <color key="backgroundColor" red="0.30588235294117649" green="0.15294117647058825" blue="0.40392156862745099" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstAttribute="centerY" secondItem="8QU-8b-fXD" secondAttribute="centerY" id="MVY-in-1VJ"/>
+                <constraint firstAttribute="centerY" secondItem="8QU-8b-fXD" secondAttribute="centerY" constant="-30" id="MVY-in-1VJ"/>
                 <constraint firstAttribute="centerX" secondItem="8QU-8b-fXD" secondAttribute="centerX" constant="-0.5" id="qlx-Y6-mAo"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
