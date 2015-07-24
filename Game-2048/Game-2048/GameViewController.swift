@@ -10,7 +10,18 @@ import UIKit
 
 class GameViewController: UIViewController {
 
+    let gameManager = GameLogicManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        gameManager.prepare()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        for idx in 0..<16 {
+            gameManager.addRandomTile()
+        }
     }
 }
