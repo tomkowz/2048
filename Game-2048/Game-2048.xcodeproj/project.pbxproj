@@ -162,6 +162,7 @@
 			children = (
 				6D98D5401B630E7A00B016AE /* GameBoardRenderer.swift */,
 				6D98D53A1B63083600B016AE /* GameBoardView.swift */,
+				6D98D5311B62FE0A00B016AE /* GameLogicManager.swift */,
 				6D98D5281B62FC0600B016AE /* GameViewController.swift */,
 				6D98D5361B63059C00B016AE /* GameViewModel.swift */,
 				6D98D53C1B630C9D00B016AE /* TileView.swift */,
@@ -184,7 +185,6 @@
 		6D98D5301B62FC6700B016AE /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				6D98D5311B62FE0A00B016AE /* GameLogicManager.swift */,
 				6D98D5331B62FE1400B016AE /* Extensions */,
 				6D98D5341B62FE3300B016AE /* Tile.swift */,
 			);

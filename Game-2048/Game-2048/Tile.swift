@@ -14,6 +14,11 @@ class Tile {
     var position: CGPoint
     var value: Int?
     
+    var upTile: Tile?
+    var rightTile: Tile?
+    var bottomTile: Tile?
+    var leftTile: Tile?
+    
     init(position: CGPoint, value: Int? = nil) {
         self.position = position
         self.value = value

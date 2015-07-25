@@ -20,13 +20,39 @@ protocol GameLogicManagerDelegate {
 
 class GameLogicManager {
     
+    private let boardWidth = 4
+    private let boardHeight = 4
+    
     var delegate: GameLogicManagerDelegate?
-    var tileNodes = [Tile]()
+    var tiles = [Tile]()
     
     func prepare() {
-        for row in 0..<4 {
-            for column in 0..<4 {
-                tileNodes.append(Tile(position: CGPoint(x: row, y: column)))
+        for row in 0..<boardWidth {
+            for column in 0..<boardHeight {
+                tiles.append(Tile(position: CGPoint(x: row, y: column)))
+            }
+        }
+        
+        let boardRect = CGRectMake(CGFloat(0.0), CGFloat(0.0), CGFloat(boardWidth - 1), CGFloat(boardHeight - 1))
+        for tile in tiles {
+            let up = CGPointMake(tile.position.x, tile.position.y - 1)
+            if CGRectContainsPoint(boardRect, up) {
+                tile.upTile = tileForPosition(up)
+            }
+            
+            let right = CGPointMake(tile.position.x + 1, tile.position.y)
+            if CGRectContainsPoint(boardRect, right) {
+                tile.rightTile = tileForPosition(right)
+            }
+            
+            let bottom = CGPointMake(tile.position.x, tile.position.y + 1)
+            if CGRectContainsPoint(boardRect, bottom) {
+                tile.bottomTile = tileForPosition(bottom)
+            }
+            
+            let left = CGPointMake(tile.position.x - 1, tile.position.y)
+            if CGRectContainsPoint(boardRect, left) {
+                tile.leftTile = tileForPosition(left)
             }
         }
     }
@@ -34,12 +60,12 @@ class GameLogicManager {
     func startGame() {
         addRandomTile()
         addRandomTile()
-        delegate?.gameLogicManager(self, didUpdateTiles: tileNodes)
+        delegate?.gameLogicManager(self, didUpdateTiles: tiles)
     }
     
     func shiftTiles(direction: UISwipeGestureRecognizerDirection) {
         addRandomTile()
-        delegate?.gameLogicManager(self, didUpdateTiles: tileNodes)
+        delegate?.gameLogicManager(self, didUpdateTiles: tiles)
     }
     
     private func addRandomTile() {
@@ -51,11 +77,11 @@ class GameLogicManager {
     }
     
     private func tileForPosition(position: CGPoint) -> Tile {
-        return tileNodes.filter({$0.position == position}).first!
+        return tiles.filter({$0.position == position}).first!
     }
     
     private var freeTiles: Int {
-        return tileNodes.filter({$0.value == nil}).count
+        return tiles.filter({$0.value == nil}).count
     }
     
     private func generatePosition() -> CGPoint? {
@@ -67,8 +93,8 @@ class GameLogicManager {
         
         var position: CGPoint?
         while (position == nil) {
-            let x = Int(arc4random_uniform(4))
-            let y = Int(arc4random_uniform(4))
+            let x = Int(arc4random_uniform(UInt32(boardWidth)))
+            let y = Int(arc4random_uniform(UInt32(boardHeight)))
             var p = CGPoint(x: x, y: y)
             if isEmpty(p) == true {
                 position = p
