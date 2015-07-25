@@ -26,7 +26,7 @@ class GameLogicManager {
     
     private let boardColumns = 4
     private let boardRows = 4
-    private let winTileValue = 128
+    private let winTileValue = 2048
     
     var delegate: GameLogicManagerDelegate?
     private var tiles = [Tile]()

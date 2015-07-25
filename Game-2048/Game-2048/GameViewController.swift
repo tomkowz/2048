@@ -152,7 +152,7 @@ class GameViewController: UIViewController, GameBoardViewDelegate, GameLogicMana
     }
     
     func gameLogicManagerDidWinGame() {
-        
+        userWin()
     }
     
     // MARK: GameOverViewControllerDelegate
