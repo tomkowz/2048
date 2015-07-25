@@ -24,20 +24,20 @@ enum ShiftDirection {
 
 class GameLogicManager {
     
-    private let boardColumns = 4
-    private let boardRows = 4
+    private let boardColumnCount = 4
+    private let boardRowCount = 4
     private let winTileValue = 2048
     
     var delegate: GameLogicManagerDelegate?
     private var tiles = [Tile]()
-    private var points = 0
+    private var pointCount = 0
     private var updating: Bool = false
     
     private func prepare() {
         updating = false
         tiles.removeAll(keepCapacity: true)
-        for row in 0..<boardColumns {
-            for column in 0..<boardRows {
+        for row in 0..<boardColumnCount {
+            for column in 0..<boardRowCount {
                 tiles.append(Tile(position: Position(x: row, y: column)))
             }
         }
@@ -45,7 +45,7 @@ class GameLogicManager {
     }
     
     func startGame() {
-        points = 0
+        pointCount = 0
         prepare()
         
         delegate?.gameLogicManagerDidAddTile(addRandomTile())
@@ -58,8 +58,8 @@ class GameLogicManager {
         
         var shifted = false
         
-        let elements = (direction == .Right || direction == .Left) ? boardRows : boardColumns
-        for rowOrColumn in 0..<elements {
+        let elementCount = (direction == .Right || direction == .Left) ? boardRowCount : boardColumnCount
+        for rowOrColumn in 0..<elementCount {
             // Get all tiles in a row or column.
             var tilesToCheck = tiles.filter({
                 let value = (direction == .Left || direction == .Right) ? $0.position.y : $0.position.x
@@ -95,12 +95,12 @@ class GameLogicManager {
                     if otherTile.value == currentTile.value {
                         moveOnSameTile(otherTile, onTile: currentTile)
                         // Notify about additional points because of adding up values
-                        points += currentTile.value!
+                        pointCount += currentTile.value!
                         if currentTile.value! == winTileValue {
                             delegate?.gameLogicManagerDidWinGame()
                             return
                         }
-                        delegate?.gameLogicManagerDidCountPoints(points)
+                        delegate?.gameLogicManagerDidCountPoints(pointCount)
                         shifted = true
                     } else if currentTile.value == nil {
                         moveOnEmptyTile(otherTile, destinationTile: currentTile)
@@ -197,7 +197,7 @@ class GameLogicManager {
                 
                 
                 let zero = x == 0 || y == 0
-                let max = x == self.boardRows - 1 || y == self.boardColumns - 1
+                let max = x == self.boardRowCount - 1 || y == self.boardColumnCount - 1
                 return zero || max
             }
             if emptyEdgeTiles.count > 0 {
@@ -208,7 +208,7 @@ class GameLogicManager {
     }
     
     private func refreshNeighborTiles() {
-        let boardRect = CGRectMake(CGFloat(0.0), CGFloat(0.0), CGFloat(boardColumns), CGFloat(boardRows))
+        let boardRect = CGRectMake(CGFloat(0.0), CGFloat(0.0), CGFloat(boardColumnCount), CGFloat(boardRowCount))
         for tile in tiles {
             let up = Position(x: tile.position.x, y: tile.position.y - 1)
             if CGRectContainsPoint(boardRect, up.CGPointRepresentation) {
