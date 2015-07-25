@@ -16,16 +16,21 @@ class GameOverViewController: UIViewController {
     @IBOutlet private var scoreLabel: UILabel!
     @IBOutlet private var restartButton: UIButton!
     @IBOutlet private var finishButton: UIButton!
-    
+    @IBOutlet var gameOverLabel: UILabel!
     
     var delegate: GameOverViewControllerDelegate?
     var score: Int!
+    var win: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         restartButton.styleLight()
         finishButton.styleLight()
-        scoreLabel.attributedText = GameOverViewModel(points: score).scoreText
+        
+        let viewModel = GameOverViewModel(points: score)
+        scoreLabel.attributedText = viewModel.scoreText
+        
+        gameOverLabel.text = win ? viewModel.winText : viewModel.gameOverText
     }
     
     @IBAction func restartPressed(sender: AnyObject) {

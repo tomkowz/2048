@@ -18,4 +18,12 @@ class GameOverViewModel {
     var scoreText: NSAttributedString {
         return NSMutableAttributedString.scoreDescription("SCORE", points: points)
     }
+    
+    var winText: String {
+        return "YOU WIN"
+    }
+    
+    var gameOverText: String {
+        return "GAME OVER"
+    }
 }

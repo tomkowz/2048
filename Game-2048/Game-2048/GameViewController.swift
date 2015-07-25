@@ -22,6 +22,7 @@ class GameViewController: UIViewController, GameBoardViewDelegate, GameLogicMana
     
     var currentScore: Int = 0
     var highScore: Int!
+    var win: Bool = false
     
     private let gameManager = GameLogicManager()
     private let viewModel = GameViewModel()
@@ -49,12 +50,20 @@ class GameViewController: UIViewController, GameBoardViewDelegate, GameLogicMana
     }
     
     private func gameOver() {
-        println("Game Over! \(currentScore)")
+        saveHighScore()
+        self.performSegueWithIdentifier(SegueIdentifier.GameOver.rawValue, sender: nil)
+    }
+    
+    private func userWin() {
+        win = true
+        saveHighScore()
+        self.performSegueWithIdentifier(SegueIdentifier.GameOver.rawValue, sender: nil)
+    }
+    
+    private func saveHighScore() {
         if NSUserDefaults.standardUserDefaults().highScore() < currentScore {
             NSUserDefaults.standardUserDefaults().saveHighScore(currentScore)
         }
-        
-        self.performSegueWithIdentifier(SegueIdentifier.GameOver.rawValue, sender: nil)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -62,6 +71,7 @@ class GameViewController: UIViewController, GameBoardViewDelegate, GameLogicMana
             let gameOverViewController = segue.destinationViewController as! GameOverViewController
             gameOverViewController.score = currentScore
             gameOverViewController.delegate = self
+            gameOverViewController.win = win
         }
     }
     
@@ -137,8 +147,12 @@ class GameViewController: UIViewController, GameBoardViewDelegate, GameLogicMana
         updateScores()
     }
     
-    func gameLogicManagerDidGameOver(points: Int) {
+    func gameLogicManagerDidGameOver() {
         gameOver()
+    }
+    
+    func gameLogicManagerDidWinGame() {
+        
     }
     
     // MARK: GameOverViewControllerDelegate

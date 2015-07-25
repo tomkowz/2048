@@ -7,14 +7,15 @@
 //
 
 import Foundation
-import UIKit
+import CoreGraphics
 
 protocol GameLogicManagerDelegate {
     func gameLogicManagerDidAddTile(tile: Tile?)
     func gameLogicManagerDidMoveTile(sourceTile: Tile, onTile destinationTile: Tile)
     func gameLogicManagerDidMoveTile(tile: Tile, position: Position)
     func gameLogicManagerDidCountPoints(points: Int)
-    func gameLogicManagerDidGameOver(points: Int)
+    func gameLogicManagerDidGameOver()
+    func gameLogicManagerDidWinGame()
 }
 
 enum ShiftDirection {
@@ -25,6 +26,7 @@ class GameLogicManager {
     
     private let boardColumns = 4
     private let boardRows = 4
+    private let winTileValue = 128
     
     var delegate: GameLogicManagerDelegate?
     private var tiles = [Tile]()
@@ -94,6 +96,10 @@ class GameLogicManager {
                         moveOnSameTile(otherTile, onTile: currentTile)
                         // Notify about additional points because of adding up values
                         points += currentTile.value!
+                        if currentTile.value! == winTileValue {
+                            delegate?.gameLogicManagerDidWinGame()
+                            return
+                        }
                         delegate?.gameLogicManagerDidCountPoints(points)
                         shifted = true
                     } else if currentTile.value == nil {
@@ -117,7 +123,7 @@ class GameLogicManager {
         }
         
         if isGameOver() == true {
-            delegate?.gameLogicManagerDidGameOver(points)
+            delegate?.gameLogicManagerDidGameOver()
         }
 
         updating = false
