@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Tomasz Szulc. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 class GameBoardRenderer {
@@ -69,7 +68,7 @@ class GameBoardRenderer {
         }
     }
     
-    func moveTile(tile: Tile, position: CGPoint) {
+    func moveTile(tile: Tile, position: Position) {
         let tileView = tileViews.filter({$0.position == tile.position}).first!
         UIView.animateWithDuration(0.25, animations: {
             tileView.center = self.centerForTile(position)
@@ -77,9 +76,9 @@ class GameBoardRenderer {
         })
     }
     
-    private func centerForTile(position: CGPoint) -> CGPoint {
-        let x = (offset * position.x) + (tileSize.width * position.x) + (tileSize.width / 2.0)
-        let y = (offset * position.y) + (tileSize.height * position.y) + (tileSize.height / 2.0)
+    private func centerForTile(position: Position) -> CGPoint {
+        let x = (offset * CGFloat(position.x)) + (tileSize.width * CGFloat(position.x)) + (tileSize.width / 2.0)
+        let y = (offset * CGFloat(position.y)) + (tileSize.height * CGFloat(position.y)) + (tileSize.height / 2.0)
         return CGPoint(x: x, y: y)
     }
     

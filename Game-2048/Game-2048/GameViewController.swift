@@ -72,7 +72,7 @@ class GameViewController: UIViewController, GameBoardViewDelegate, GameLogicMana
         renderer.moveTile(sourceTile, onTile: destinationTile)
     }
     
-    func gameLogicManagerDidMoveTile(tile: Tile, position: CGPoint) {
+    func gameLogicManagerDidMoveTile(tile: Tile, position: Position) {
         renderer.moveTile(tile, position: position)
     }
 }

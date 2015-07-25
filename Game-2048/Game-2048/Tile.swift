@@ -9,13 +9,25 @@
 import Foundation
 import CoreGraphics
 
+func == (lhs: Position, rhs: Position) -> Bool {
+    return lhs.x == rhs.x && lhs.y == rhs.y
+}
+
+struct Position: Equatable {
+    var x, y: Int
+    
+    var CGPointRepresentation: CGPoint {
+        return CGPointMake(CGFloat(x), CGFloat(y))
+    }
+}
+
 func ==(lhs: Tile, rhs: Tile) -> Bool {
     return lhs.position == rhs.position
 }
 
 class Tile: Equatable {
     
-    var position: CGPoint
+    var position: Position
     var value: Int?
     
     var upTile: Tile?
@@ -23,10 +35,8 @@ class Tile: Equatable {
     var bottomTile: Tile?
     var leftTile: Tile?
     
-    init(position: CGPoint, value: Int? = nil) {
+    init(position: Position, value: Int? = nil) {
         self.position = position
         self.value = value
     }
-    
-    
 }

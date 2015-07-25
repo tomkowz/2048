@@ -10,7 +10,7 @@ import UIKit
 
 class TileView: UIView {
     @IBOutlet var valueLabel: UILabel!
-    var position: CGPoint = CGPointZero
+    var position: Position = Position(x: 0, y: 0)
     
     class func createView() -> TileView {
         let nibContent = UINib(nibName: "TileView", bundle: nil).instantiateWithOwner(nil, options: nil)

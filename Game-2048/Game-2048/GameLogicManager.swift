@@ -7,17 +7,12 @@
 //
 
 import Foundation
-import CoreGraphics
 import UIKit
-
-public func ==(lhs: CGPoint, rhs: CGPoint) -> Bool {
-    return lhs.x == rhs.x && lhs.y == rhs.y
-}
 
 protocol GameLogicManagerDelegate {
     func gameLogicManagerDidAddTile(tile: Tile?)
     func gameLogicManagerDidMoveTile(sourceTile: Tile, onTile destinationTile: Tile)
-    func gameLogicManagerDidMoveTile(tile: Tile, position: CGPoint)
+    func gameLogicManagerDidMoveTile(tile: Tile, position: Position)
 }
 
 class GameLogicManager {
@@ -31,7 +26,7 @@ class GameLogicManager {
     func prepare() {
         for row in 0..<boardColumns {
             for column in 0..<boardRows {
-                tiles.append(Tile(position: CGPoint(x: row, y: column)))
+                tiles.append(Tile(position: Position(x: row, y: column)))
             }
         }
         
@@ -68,7 +63,7 @@ class GameLogicManager {
     func shiftRight() -> Bool {
         var shifted = false
         for row in 0..<boardRows {
-            let tilesInRow = reverse(tiles.filter({Int($0.position.y) == row}))
+            let tilesInRow = reverse(tiles.filter({$0.position.y == row}))
             for currentTile in tilesInRow {
                 
                 // Find first tile with some value
@@ -98,11 +93,10 @@ class GameLogicManager {
             tile.value = 2
             return tile
         }
-        
         return nil
     }
     
-    private func tileForPosition(position: CGPoint) -> Tile {
+    private func tileForPosition(position: Position) -> Tile {
         return tiles.filter({$0.position == position}).first!
     }
     
@@ -110,18 +104,18 @@ class GameLogicManager {
         return tiles.filter({$0.value == nil}).count
     }
     
-    private func generatePosition() -> CGPoint? {
+    private func generatePosition() -> Position? {
         if freeTiles == 0 { return nil }
 
-        func isEmpty(point: CGPoint) -> Bool {
+        func isEmpty(point: Position) -> Bool {
             return tileForPosition(point).value == nil
         }
         
-        var position: CGPoint?
+        var position: Position?
         while (position == nil) {
             let x = Int(arc4random_uniform(UInt32(boardColumns)))
             let y = Int(arc4random_uniform(UInt32(boardRows)))
-            var p = CGPoint(x: x, y: y)
+            var p = Position(x: x, y: y)
             if isEmpty(p) == true {
                 position = p
                 break
@@ -134,23 +128,23 @@ class GameLogicManager {
     private func refreshNeighborTiles() {
         let boardRect = CGRectMake(CGFloat(0.0), CGFloat(0.0), CGFloat(boardColumns), CGFloat(boardRows))
         for tile in tiles {
-            let up = CGPointMake(tile.position.x, tile.position.y - 1)
-            if CGRectContainsPoint(boardRect, up) {
+            let up = Position(x: tile.position.x, y: tile.position.y - 1)
+            if CGRectContainsPoint(boardRect, up.CGPointRepresentation) {
                 tile.upTile = tileForPosition(up)
             }
             
-            let right = CGPointMake(tile.position.x + 1, tile.position.y)
-            if CGRectContainsPoint(boardRect, right) {
+            let right = Position(x: tile.position.x + 1, y: tile.position.y)
+            if CGRectContainsPoint(boardRect, right.CGPointRepresentation) {
                 tile.rightTile = tileForPosition(right)
             }
             
-            let bottom = CGPointMake(tile.position.x, tile.position.y + 1)
-            if CGRectContainsPoint(boardRect, bottom) {
+            let bottom = Position(x: tile.position.x, y: tile.position.y + 1)
+            if CGRectContainsPoint(boardRect, bottom.CGPointRepresentation) {
                 tile.bottomTile = tileForPosition(bottom)
             }
             
-            let left = CGPointMake(tile.position.x - 1, tile.position.y)
-            if CGRectContainsPoint(boardRect, left) {
+            let left = Position(x: tile.position.x - 1, y: tile.position.y)
+            if CGRectContainsPoint(boardRect, left.CGPointRepresentation) {
                 tile.leftTile = tileForPosition(left)
             }
         }
