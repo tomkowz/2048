@@ -46,10 +46,17 @@ class GameViewController: UIViewController, GameBoardViewDelegate, GameLogicMana
         super.viewDidAppear(animated)
     }
     
+    private func gameOver() {
+        println("Game Over! \(currentScore)")
+        NSUserDefaults.standardUserDefaults().saveHighScore(currentScore)
+    }
+    
     @IBAction func restartPressed(sender: AnyObject) {
+        gameOver()
     }
     
     @IBAction func finishPressed(sender: AnyObject) {
+        gameOver()
         dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -79,10 +86,15 @@ class GameViewController: UIViewController, GameBoardViewDelegate, GameLogicMana
     }
     
     func gameLogicManagerDidCountPoints(points: Int) {
+        currentScore = points
         currentScoreLabel.attributedText = viewModel.scoreText(points)
+        if highScore < points {
+            highScore = points
+            bestScoreLabel.attributedText = viewModel.bestScoreText(points)
+        }
     }
     
     func gameLogicManagerDidGameOver(points: Int) {
-        println("Game Over! \(points)")
+        gameOver()
     }
 }

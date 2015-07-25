@@ -20,7 +20,10 @@ class MainMenuViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         newGameButton.styleLight()
-
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         let highScore = NSUserDefaults.standardUserDefaults().highScore()
         let viewModel = MainMenuViewModel(points: highScore)
         highScoreLabel.attributedText = viewModel.highScoreText
