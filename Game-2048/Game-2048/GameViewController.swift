@@ -20,13 +20,13 @@ class GameViewController: UIViewController, GameBoardViewDelegate, GameLogicMana
     @IBOutlet private var finishButton: UIButton!
     @IBOutlet private var boardView: GameBoardView!
     
-    var currentScore: Int = 0
-    var highScore: Int!
-    var win: Bool = false
-    
     private let gameManager = GameLogicManager()
     private let viewModel = GameViewModel()
     private var renderer: GameBoardRenderer!
+
+    private var currentScore: Int = 0
+    private var win: Bool = false
+    var highScore: Int!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,10 +43,6 @@ class GameViewController: UIViewController, GameBoardViewDelegate, GameLogicMana
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         updateScores()
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
     }
     
     private func gameOver() {
@@ -90,27 +86,15 @@ class GameViewController: UIViewController, GameBoardViewDelegate, GameLogicMana
     
     @IBAction func restartPressed(sender: AnyObject) {
         let alertController = UIAlertController(title: "Restart Game", message: "Are you sure?", preferredStyle: .Alert)
-        alertController.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { (action) -> Void in
-            self.restart()
-        }))
-        
-        alertController.addAction(UIAlertAction(title: "No", style: .Cancel, handler: { (action) -> Void in
-            // nothing
-        }))
-        
+        alertController.addAction(UIAlertAction(title: "No", style: .Cancel, handler: nil))
+        alertController.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { _ in self.restart() }))
         self.presentViewController(alertController, animated: true, completion: nil)
     }
     
     @IBAction func finishPressed(sender: AnyObject) {
         let alertController = UIAlertController(title: "Finish Game", message: "Are you sure?", preferredStyle: .Alert)
-        alertController.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { (action) -> Void in
-            self.gameOver()
-        }))
-        
-        alertController.addAction(UIAlertAction(title: "No", style: .Cancel, handler: { (action) -> Void in
-            // nothing
-        }))
-        
+        alertController.addAction(UIAlertAction(title: "No", style: .Cancel, handler: nil))
+        alertController.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { _ in self.gameOver() }))
         self.presentViewController(alertController, animated: true, completion: nil)
     }
     
@@ -118,7 +102,6 @@ class GameViewController: UIViewController, GameBoardViewDelegate, GameLogicMana
     func gameBoardView(view: GameBoardView, didSwipeInDirection direction: ShiftDirection) {
         gameManager.shift(direction)
     }
-    
     
     // MARK: GameLogicManagerDelegate
     func gameLogicManagerDidAddTile(tile: Tile?) {
@@ -135,9 +118,7 @@ class GameViewController: UIViewController, GameBoardViewDelegate, GameLogicMana
     
     func gameLogicManagerDidCountPoints(points: Int) {
         currentScore = points
-        if highScore < points {
-            highScore = points
-        }
+        if highScore < points { highScore = points }
         updateScores()
     }
     

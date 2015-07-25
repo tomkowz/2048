@@ -21,13 +21,8 @@ struct Position: Equatable {
     }
 }
 
-func ==(lhs: Tile, rhs: Tile) -> Bool {
-    return lhs.position == rhs.position
-}
-
-class Tile: Equatable {
-    
-    var position: Position
+class Tile {
+    let position: Position
     var value: Int?
     
     var upTile: Tile?

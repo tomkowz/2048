@@ -33,7 +33,7 @@ class TileViewModel {
         case 512: return UIColor(red:0.5, green:0.27, blue:0.53, alpha:1)
         case 1024: return UIColor(red:0.83, green:0.27, blue:0.36, alpha:1)
         case 2048: return UIColor(red:0.88, green:0.6, blue:0.14, alpha:1)
-        default: return UIColor.whiteColor()
+        default: return UIColor.clearColor() // This will never happen.
         }
     }
 }

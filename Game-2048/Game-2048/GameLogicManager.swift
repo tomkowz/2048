@@ -53,18 +53,20 @@ class GameLogicManager {
     }
     
     func shift(direction: ShiftDirection) {
+        // Want to wait for ending one shifting before doing another which
+        // can collide with currently performing.
         if updating == true { return }
         updating = true
         
-        var shifted = false
+        var performedShift = false
+        let horizontally = (direction == .Right || direction == .Left)
         
-        let elementCount = (direction == .Right || direction == .Left) ? boardRowCount : boardColumnCount
+        let elementCount = horizontally ? boardRowCount : boardColumnCount
         for rowOrColumn in 0..<elementCount {
             // Get all tiles in a row or column.
-            var tilesToCheck = tiles.filter({
-                let value = (direction == .Left || direction == .Right) ? $0.position.y : $0.position.x
-                return value == rowOrColumn
-            })
+            var tilesToCheck = tiles.filter {
+                return (horizontally ? $0.position.y : $0.position.x) == rowOrColumn
+            }
             
             // When shifting right or down array need to be reversed.
             if direction == .Right || direction == .Down {
@@ -74,17 +76,17 @@ class GameLogicManager {
             var tileIndex = 0
             while tileIndex < tilesToCheck.count {
                 let currentTile = tilesToCheck[tileIndex]
-                // Find first tile with some value
-                // When shifting right filter seeks for tiles on the left,
-                // otherwise on the right from current tile.
+                // Find first tile with some value. When shifting right filter 
+                // seeks for tiles on the left, otherwise on the right from current tile.
                 let filter: ((tile: Tile) -> Bool) = { tile in
-                    var position: Bool
-                    switch direction {
-                    case .Up: position = tile.position.y > currentTile.position.y
-                    case .Right: position = tile.position.x < currentTile.position.x
-                    case .Down: position = tile.position.y < currentTile.position.y
-                    case .Left: position = tile.position.x > currentTile.position.x
-                    }
+                    let position: Bool = {
+                        switch direction {
+                        case .Up: return tile.position.y > currentTile.position.y
+                        case .Right: return tile.position.x < currentTile.position.x
+                        case .Down: return tile.position.y < currentTile.position.y
+                        case .Left: return tile.position.x > currentTile.position.x
+                        }
+                    }()
                     
                     return position == true && tile.value != nil
                 }
@@ -96,36 +98,33 @@ class GameLogicManager {
                         moveOnSameTile(otherTile, onTile: currentTile)
                         // Notify about additional points because of adding up values
                         pointCount += currentTile.value!
+                        // If current tile get's win tile value just end the game.
                         if currentTile.value! == winTileValue {
                             delegate?.gameLogicManagerDidWinGame()
                             return
                         }
                         delegate?.gameLogicManagerDidCountPoints(pointCount)
-                        shifted = true
+                        performedShift = true
                     } else if currentTile.value == nil {
                         moveOnEmptyTile(otherTile, destinationTile: currentTile)
                         // if tile has been moved to another place repeat this step
                         // because maybe next tile has the same value and they
                         // should be added up.
                         tileIndex--
-                        shifted = true
+                        performedShift = true
                     }
                 }
                 tileIndex++
             }
-            
         }
         
         // Every shift method returns boolean value if shift has been performed on
         // some at least one tile or not.
-        if shifted {
+        if performedShift {
             delegate?.gameLogicManagerDidAddTile(addRandomTile(onEdge:true))
         }
         
-        if isGameOver() == true {
-            delegate?.gameLogicManagerDidGameOver()
-        }
-
+        if isGameOver() == true { delegate?.gameLogicManagerDidGameOver() }
         updating = false
     }
     
@@ -144,31 +143,14 @@ class GameLogicManager {
     private func isGameOver() -> Bool {
         // Check if there is some empty tile.
         // If not then check if there is a tile that have any move
-        if tiles.filter({$0.value == nil}).count == 0 {
-            for tile in tiles {
-                let v = tile.value! // value of current tile
-                
-                var upHasMove = false
-                var rightHasMove = false
-                var bottomHasMove = false
-                var leftHasMove = false
-                
-                if let up = tile.upTile?.value { upHasMove = v == up }
-                if let right = tile.rightTile?.value { rightHasMove = v == right }
-                if let bottom = tile.bottomTile?.value { bottomHasMove = v == bottom }
-                if let left = tile.leftTile?.value { leftHasMove = v == left }
-
-                if upHasMove || rightHasMove || bottomHasMove || leftHasMove {
-                    // Still some moves
-                    return false
-                }
-            }
-            
-            // This is game over
-            return true
+        if tiles.filter({$0.value == nil}).count != 0 { return false }
+        for tile in tiles {
+            let v = tile.value! // value of current tile
+            // If neighbor tile has same value as `v` it means there is a move.
+            let neighbors = [tile.upTile, tile.rightTile, tile.bottomTile, tile.leftTile].filter { $0?.value == v }
+            if neighbors.count != 0 { return false }
         }
-        
-        return false
+        return true // Game Over
     }
     
     private func addRandomTile(onEdge: Bool = false) -> Tile? {
@@ -194,7 +176,6 @@ class GameLogicManager {
             let emptyEdgeTiles = emptyTiles.filter {
                 let x = $0.position.x
                 let y = $0.position.y
-                
                 
                 let zero = x == 0 || y == 0
                 let max = x == self.boardRowCount - 1 || y == self.boardColumnCount - 1

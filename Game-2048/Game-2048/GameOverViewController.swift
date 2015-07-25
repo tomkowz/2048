@@ -16,7 +16,7 @@ class GameOverViewController: UIViewController {
     @IBOutlet private var scoreLabel: UILabel!
     @IBOutlet private var restartButton: UIButton!
     @IBOutlet private var finishButton: UIButton!
-    @IBOutlet var gameOverLabel: UILabel!
+    @IBOutlet private var gameOverLabel: UILabel!
     
     var delegate: GameOverViewControllerDelegate?
     var score: Int!
