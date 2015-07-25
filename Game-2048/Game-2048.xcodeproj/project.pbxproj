@@ -27,6 +27,8 @@
 		6D98D53F1B630CAE00B016AE /* TileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D98D53E1B630CAE00B016AE /* TileView.xib */; };
 		6D98D5411B630E7A00B016AE /* GameBoardRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D98D5401B630E7A00B016AE /* GameBoardRenderer.swift */; };
 		6D98D5431B63135100B016AE /* TileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D98D5421B63135100B016AE /* TileViewModel.swift */; };
+		6DB017B51B63C4060061B9D5 /* GameOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB017B41B63C4060061B9D5 /* GameOverViewController.swift */; };
+		6DB017B71B63C4900061B9D5 /* GameOverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB017B61B63C4900061B9D5 /* GameOverViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +66,8 @@
 		6D98D53E1B630CAE00B016AE /* TileView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TileView.xib; sourceTree = "<group>"; };
 		6D98D5401B630E7A00B016AE /* GameBoardRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameBoardRenderer.swift; sourceTree = "<group>"; };
 		6D98D5421B63135100B016AE /* TileViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TileViewModel.swift; sourceTree = "<group>"; };
+		6DB017B41B63C4060061B9D5 /* GameOverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverViewController.swift; sourceTree = "<group>"; };
+		6DB017B61B63C4900061B9D5 /* GameOverViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +148,7 @@
 			children = (
 				6D98D52B1B62FC2500B016AE /* Main Menu */,
 				6D98D52C1B62FC2A00B016AE /* Gameplay */,
+				6DB017B31B63C3F50061B9D5 /* Game Over */,
 			);
 			name = Features;
 			sourceTree = "<group>";
@@ -200,6 +205,15 @@
 				6D98D5241B62F78400B016AE /* UIButton+2048Style.swift */,
 			);
 			name = Extensions;
+			sourceTree = "<group>";
+		};
+		6DB017B31B63C3F50061B9D5 /* Game Over */ = {
+			isa = PBXGroup;
+			children = (
+				6DB017B41B63C4060061B9D5 /* GameOverViewController.swift */,
+				6DB017B61B63C4900061B9D5 /* GameOverViewModel.swift */,
+			);
+			name = "Game Over";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -306,6 +320,7 @@
 				6D98D5051B62F05500B016AE /* MainMenuViewController.swift in Sources */,
 				6D98D5231B62F58000B016AE /* AppColor.swift in Sources */,
 				6D98D53D1B630C9D00B016AE /* TileView.swift in Sources */,
+				6DB017B71B63C4900061B9D5 /* GameOverViewModel.swift in Sources */,
 				6D98D5271B62FAB800B016AE /* NSUserDefaults+Scores.swift in Sources */,
 				6D98D5031B62F05500B016AE /* AppDelegate.swift in Sources */,
 				6D98D5411B630E7A00B016AE /* GameBoardRenderer.swift in Sources */,
@@ -315,6 +330,7 @@
 				6D98D5351B62FE3300B016AE /* Tile.swift in Sources */,
 				6D98D52E1B62FC4900B016AE /* MainMenuViewModel.swift in Sources */,
 				6D98D5371B63059C00B016AE /* GameViewModel.swift in Sources */,
+				6DB017B51B63C4060061B9D5 /* GameOverViewController.swift in Sources */,
 				6D98D5251B62F78400B016AE /* UIButton+2048Style.swift in Sources */,
 				6D98D53B1B63083600B016AE /* GameBoardView.swift in Sources */,
 				6D98D5431B63135100B016AE /* TileViewModel.swift in Sources */,
@@ -515,6 +531,7 @@
 				6D98D51E1B62F05500B016AE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6D98D51F1B62F05500B016AE /* Build configuration list for PBXNativeTarget "Game-2048Tests" */ = {
 			isa = XCConfigurationList;
@@ -523,6 +540,7 @@
 				6D98D5211B62F05500B016AE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

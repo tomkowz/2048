@@ -152,11 +152,86 @@
                         <outlet property="currentScoreLabel" destination="QzG-lP-jPV" id="xS4-40-Dyo"/>
                         <outlet property="finishButton" destination="GQx-vF-PjO" id="mCf-NV-x5V"/>
                         <outlet property="restartButton" destination="cJa-al-ycr" id="f4s-VN-B6a"/>
+                        <segue destination="dol-gd-b8D" kind="presentation" identifier="GameOver" id="L2y-MJ-LxL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zJG-Eo-KB7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1499" y="496"/>
+            <point key="canvasLocation" x="1563" y="540"/>
+        </scene>
+        <!--Game Over View Controller-->
+        <scene sceneID="qiC-aK-WEf">
+            <objects>
+                <viewController id="dol-gd-b8D" customClass="GameOverViewController" customModule="Game_2048" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="juN-CS-dFU"/>
+                        <viewControllerLayoutGuide type="bottom" id="FMc-jM-4N0"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="eHL-ph-DMd">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GAME OVER" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zZg-eZ-2H9">
+                                <rect key="frame" x="188" y="75" width="225" height="43"/>
+                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="36"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SCORE: 0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Amm-wb-4op">
+                                <rect key="frame" x="251" y="288" width="98" height="24"/>
+                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="20"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Odt-gv-d0I">
+                                <rect key="frame" x="180" y="530" width="240" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="Fde-No-y3c"/>
+                                    <constraint firstAttribute="height" constant="40" id="bLT-82-bUr"/>
+                                </constraints>
+                                <state key="normal" title="MAIN MENU">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="finishPressed:" destination="dol-gd-b8D" eventType="touchUpInside" id="cfF-0f-jf0"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aeD-OK-l42">
+                                <rect key="frame" x="180" y="482" width="240" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="dlM-KI-C3N"/>
+                                    <constraint firstAttribute="width" constant="240" id="sZf-Bs-Jur"/>
+                                </constraints>
+                                <state key="normal" title="TRY AGAIN">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="restartPressed:" destination="dol-gd-b8D" eventType="touchUpInside" id="l7g-nu-tUQ"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.30588235289999999" green="0.1529411765" blue="0.4039215686" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="zZg-eZ-2H9" firstAttribute="top" secondItem="juN-CS-dFU" secondAttribute="bottom" constant="55" id="DPQ-Cs-p0U"/>
+                            <constraint firstItem="Amm-wb-4op" firstAttribute="centerX" secondItem="zZg-eZ-2H9" secondAttribute="centerX" id="Iw5-4t-ScK"/>
+                            <constraint firstItem="Odt-gv-d0I" firstAttribute="top" secondItem="aeD-OK-l42" secondAttribute="bottom" constant="8" id="JYS-4p-jB4"/>
+                            <constraint firstItem="FMc-jM-4N0" firstAttribute="top" secondItem="Odt-gv-d0I" secondAttribute="bottom" constant="30" id="Ssb-TS-1pk"/>
+                            <constraint firstItem="aeD-OK-l42" firstAttribute="centerX" secondItem="Odt-gv-d0I" secondAttribute="centerX" id="WvP-at-M3P"/>
+                            <constraint firstAttribute="centerX" secondItem="Odt-gv-d0I" secondAttribute="centerX" id="YkV-6C-yFm"/>
+                            <constraint firstAttribute="centerX" secondItem="Amm-wb-4op" secondAttribute="centerX" id="jeH-Jj-LHl"/>
+                            <constraint firstAttribute="centerX" secondItem="zZg-eZ-2H9" secondAttribute="centerX" id="rhd-O2-rON"/>
+                            <constraint firstAttribute="centerY" secondItem="Amm-wb-4op" secondAttribute="centerY" id="t4S-dw-Lhw"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="finishButton" destination="Odt-gv-d0I" id="LKR-dW-nVI"/>
+                        <outlet property="restartButton" destination="aeD-OK-l42" id="Kz4-Am-n32"/>
+                        <outlet property="scoreLabel" destination="Amm-wb-4op" id="WPX-gA-rv7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="chs-Yo-uZf" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2311" y="540"/>
         </scene>
     </scenes>
     <resources>

@@ -8,8 +8,12 @@
 
 import UIKit
 
-class GameViewController: UIViewController, GameBoardViewDelegate, GameLogicManagerDelegate {
+class GameViewController: UIViewController, GameBoardViewDelegate, GameLogicManagerDelegate, GameOverViewControllerDelegate {
 
+    enum SegueIdentifier: String {
+        case GameOver = "GameOver"
+    }
+    
     @IBOutlet private var currentScoreLabel: UILabel!
     @IBOutlet private var bestScoreLabel: UILabel!
     @IBOutlet private var restartButton: UIButton!
@@ -49,6 +53,16 @@ class GameViewController: UIViewController, GameBoardViewDelegate, GameLogicMana
         if NSUserDefaults.standardUserDefaults().highScore() < currentScore {
             NSUserDefaults.standardUserDefaults().saveHighScore(currentScore)
         }
+        
+        self.performSegueWithIdentifier(SegueIdentifier.GameOver.rawValue, sender: nil)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == SegueIdentifier.GameOver.rawValue {
+            let gameOverViewController = segue.destinationViewController as! GameOverViewController
+            gameOverViewController.score = currentScore
+            gameOverViewController.delegate = self
+        }
     }
     
     private func updateScores() {
@@ -81,7 +95,6 @@ class GameViewController: UIViewController, GameBoardViewDelegate, GameLogicMana
         let alertController = UIAlertController(title: "Finish Game", message: "Are you sure?", preferredStyle: .Alert)
         alertController.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { (action) -> Void in
             self.gameOver()
-            self.dismissViewControllerAnimated(true, completion: nil)
         }))
         
         alertController.addAction(UIAlertAction(title: "No", style: .Cancel, handler: { (action) -> Void in
@@ -126,5 +139,10 @@ class GameViewController: UIViewController, GameBoardViewDelegate, GameLogicMana
     
     func gameLogicManagerDidGameOver(points: Int) {
         gameOver()
+    }
+    
+    // MARK: GameOverViewControllerDelegate
+    func gameOverControllerDidTapRestart() {
+        restart()
     }
 }
