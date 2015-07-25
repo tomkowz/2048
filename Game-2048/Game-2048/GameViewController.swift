@@ -55,7 +55,13 @@ class GameViewController: UIViewController, GameBoardViewDelegate, GameLogicMana
     
     // MARK: GameBoardViewDelegate
     func gameBoardView(view: GameBoardView, didSwipeInDirection direction: UISwipeGestureRecognizerDirection) {
-        gameManager.shiftTiles(direction)
+        switch direction {
+        case UISwipeGestureRecognizerDirection.Up: gameManager.shift(.Up)
+        case UISwipeGestureRecognizerDirection.Right: gameManager.shift(.Right)
+        case UISwipeGestureRecognizerDirection.Down: gameManager.shift(.Down)
+        case UISwipeGestureRecognizerDirection.Left: gameManager.shift(.Left)
+        default: break
+        }
     }
     
     
