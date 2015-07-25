@@ -37,7 +37,6 @@ class GameBoardView: UIView {
     }
     
     func handleSwipe(recognizer: UISwipeGestureRecognizer) {
-        println("swipe, \(recognizer.direction.rawValue)")
         delegate?.gameBoardView(self, didSwipeInDirection: recognizer.direction)
     }
 }

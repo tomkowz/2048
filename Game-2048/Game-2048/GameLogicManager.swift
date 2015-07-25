@@ -98,7 +98,7 @@ class GameLogicManager {
         // Every shift method returns boolean value if shift has been performed on
         // some at least one tile or not.
         if shifted {
-            delegate?.gameLogicManagerDidAddTile(addRandomTile())
+            delegate?.gameLogicManagerDidAddTile(addRandomTile(onEdge:true))
         }
     }
     
@@ -114,8 +114,9 @@ class GameLogicManager {
         delegate?.gameLogicManagerDidMoveTile(sourceTile, position: destinationTile.position)
     }
     
-    private func addRandomTile() -> Tile? {
-        if let position = generatePosition() {
+    private func addRandomTile(onEdge: Bool = false) -> Tile? {
+        // If found position then create tile
+        if let position = randomPosition(onEdge: onEdge) {
             let tile = tileForPosition(position)
             tile.value = 2
             return tile
@@ -127,29 +128,18 @@ class GameLogicManager {
         return tiles.filter({$0.position == position}).first!
     }
     
-    private var freeTiles: Int {
-        return tiles.filter({$0.value == nil}).count
-    }
-    
-    private func generatePosition() -> Position? {
-        if freeTiles == 0 { return nil }
-
-        func isEmpty(point: Position) -> Bool {
-            return tileForPosition(point).value == nil
-        }
-        
-        var position: Position?
-        while (position == nil) {
-            let x = Int(arc4random_uniform(UInt32(boardColumns)))
-            let y = Int(arc4random_uniform(UInt32(boardRows)))
-            var p = Position(x: x, y: y)
-            if isEmpty(p) == true {
-                position = p
-                break
+    private func randomPosition(onEdge: Bool = false) -> Position? {
+        var emptyTiles = tiles.filter({$0.value == nil})
+        if onEdge == false && emptyTiles.count > 0 {
+            return emptyTiles[Int(arc4random_uniform(UInt32(emptyTiles.count)))].position
+        } else if onEdge == true {
+            // Get empty edge position
+            let emptyEdgeTiles = emptyTiles.filter({$0.position.x == 0 || $0.position.y == 0})
+            if emptyEdgeTiles.count > 0 {
+                return emptyEdgeTiles[Int(arc4random_uniform(UInt32(emptyEdgeTiles.count)))].position
             }
         }
-        
-        return position
+        return nil
     }
     
     private func refreshNeighborTiles() {

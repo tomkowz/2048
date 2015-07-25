@@ -69,8 +69,6 @@ class GameViewController: UIViewController, GameBoardViewDelegate, GameLogicMana
     func gameLogicManagerDidAddTile(tile: Tile?) {
         if let tile = tile {
             renderer.addTile(tile)
-        } else {
-            println("game over!")
         }
     }
     

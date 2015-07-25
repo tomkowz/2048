@@ -42,7 +42,6 @@ class GameBoardRenderer {
         }
         
         tileViews.append(tileView)
-        println("added tile: \(tile.position)")
     }
     
     func moveTile(sourceTile: Tile, onTile destinationTile: Tile) {
