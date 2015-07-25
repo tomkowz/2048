@@ -22,6 +22,7 @@
 		6D98D5351B62FE3300B016AE /* TileNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D98D5341B62FE3300B016AE /* TileNode.swift */; };
 		6D98D5371B63059C00B016AE /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D98D5361B63059C00B016AE /* GameViewModel.swift */; };
 		6D98D5391B63061200B016AE /* NSMutableAttributedString+ScoreFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D98D5381B63061200B016AE /* NSMutableAttributedString+ScoreFormatter.swift */; };
+		6D98D53B1B63083600B016AE /* GameBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D98D53A1B63083600B016AE /* GameBoardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		6D98D5341B62FE3300B016AE /* TileNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TileNode.swift; sourceTree = "<group>"; };
 		6D98D5361B63059C00B016AE /* GameViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
 		6D98D5381B63061200B016AE /* NSMutableAttributedString+ScoreFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+ScoreFormatter.swift"; sourceTree = "<group>"; };
+		6D98D53A1B63083600B016AE /* GameBoardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameBoardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +152,7 @@
 		6D98D52C1B62FC2A00B016AE /* Gameplay */ = {
 			isa = PBXGroup;
 			children = (
+				6D98D53A1B63083600B016AE /* GameBoardView.swift */,
 				6D98D5281B62FC0600B016AE /* GameViewController.swift */,
 				6D98D5361B63059C00B016AE /* GameViewModel.swift */,
 			);
@@ -298,6 +301,7 @@
 				6D98D52E1B62FC4900B016AE /* MainMenuViewModel.swift in Sources */,
 				6D98D5371B63059C00B016AE /* GameViewModel.swift in Sources */,
 				6D98D5251B62F78400B016AE /* UIButton+2048Style.swift in Sources */,
+				6D98D53B1B63083600B016AE /* GameBoardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

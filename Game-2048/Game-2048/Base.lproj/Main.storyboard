@@ -89,7 +89,7 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w8u-FS-F73">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w8u-FS-F73" customClass="GameBoardView" customModule="Game_2048" customModuleProvider="target">
                                 <rect key="frame" x="178" y="178" width="244" height="244"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -140,6 +140,7 @@
                     </view>
                     <connections>
                         <outlet property="bestScoreLabel" destination="N8p-t3-Hwf" id="WmN-FI-KLK"/>
+                        <outlet property="boardView" destination="w8u-FS-F73" id="OOW-UY-9KI"/>
                         <outlet property="currentScoreLabel" destination="QzG-lP-jPV" id="xS4-40-Dyo"/>
                         <outlet property="finishButton" destination="GQx-vF-PjO" id="mCf-NV-x5V"/>
                         <outlet property="restartButton" destination="cJa-al-ycr" id="f4s-VN-B6a"/>

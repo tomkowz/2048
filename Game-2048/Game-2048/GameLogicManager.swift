@@ -8,13 +8,19 @@
 
 import Foundation
 import CoreGraphics
+import UIKit
 
 public func ==(lhs: CGPoint, rhs: CGPoint) -> Bool {
     return lhs.x == rhs.x && lhs.y == rhs.y
 }
 
+protocol GameLogicManagerDelegate {
+    func gameLogicManager(manager: GameLogicManager, didUpdateTiles tiles: [TileNode])
+}
+
 class GameLogicManager {
     
+    var delegate: GameLogicManagerDelegate?
     var tileNodes = [TileNode]()
     
     func prepare() {
@@ -25,7 +31,18 @@ class GameLogicManager {
         }
     }
     
-    func addRandomTile() {
+    func startGame() {
+        addRandomTile()
+        addRandomTile()
+        delegate?.gameLogicManager(self, didUpdateTiles: tileNodes)
+    }
+    
+    func shiftTiles(direction: UISwipeGestureRecognizerDirection) {
+        addRandomTile()
+        delegate?.gameLogicManager(self, didUpdateTiles: tileNodes)
+    }
+    
+    private func addRandomTile() {
         if let position = generatePosition() {
             let tileNode = tileForPosition(position)
             tileNode.value = 2

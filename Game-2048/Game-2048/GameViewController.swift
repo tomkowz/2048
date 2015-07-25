@@ -8,12 +8,13 @@
 
 import UIKit
 
-class GameViewController: UIViewController {
+class GameViewController: UIViewController, GameBoardViewDelegate, GameLogicManagerDelegate {
 
     @IBOutlet private var currentScoreLabel: UILabel!
     @IBOutlet private var bestScoreLabel: UILabel!
     @IBOutlet private var restartButton: UIButton!
     @IBOutlet private var finishButton: UIButton!
+    @IBOutlet private var boardView: GameBoardView!
     
     var currentScore: Int = 0
     var highScore: Int!
@@ -23,7 +24,10 @@ class GameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        boardView.delegate = self
+        gameManager.delegate = self
         gameManager.prepare()
+        gameManager.startGame()
         
         restartButton.styleLight()
         finishButton.styleLight()
@@ -37,10 +41,6 @@ class GameViewController: UIViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
-        for idx in 0..<16 {
-            gameManager.addRandomTile()
-        }
     }
     
     @IBAction func restartPressed(sender: AnyObject) {
@@ -48,5 +48,15 @@ class GameViewController: UIViewController {
     
     @IBAction func finishPressed(sender: AnyObject) {
         dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    // MARK: GameBoardViewDelegate
+    func gameBoardView(view: GameBoardView, didSwipeInDirection direction: UISwipeGestureRecognizerDirection) {
+        gameManager.shiftTiles(direction)
+    }
+    
+    // MARK: GameLogicManagerDelegate
+    func gameLogicManager(manager: GameLogicManager, didUpdateTiles tiles: [TileNode]) {
+        println("render me")
     }
 }
