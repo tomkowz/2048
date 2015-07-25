@@ -29,7 +29,6 @@ class GameViewController: UIViewController, GameBoardViewDelegate, GameLogicMana
         renderer = GameBoardRenderer(boardView: boardView)
         
         gameManager.delegate = self
-        gameManager.prepare()
         gameManager.startGame()
         
         restartButton.styleLight()
@@ -38,8 +37,7 @@ class GameViewController: UIViewController, GameBoardViewDelegate, GameLogicMana
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        currentScoreLabel.attributedText = viewModel.scoreText(currentScore)
-        bestScoreLabel.attributedText = viewModel.bestScoreText(highScore)
+        updateScores()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -48,16 +46,49 @@ class GameViewController: UIViewController, GameBoardViewDelegate, GameLogicMana
     
     private func gameOver() {
         println("Game Over! \(currentScore)")
-        NSUserDefaults.standardUserDefaults().saveHighScore(currentScore)
+        if NSUserDefaults.standardUserDefaults().highScore() < currentScore {
+            NSUserDefaults.standardUserDefaults().saveHighScore(currentScore)
+        }
+    }
+    
+    private func updateScores() {
+        currentScoreLabel.attributedText = viewModel.scoreText(currentScore)
+        bestScoreLabel.attributedText = viewModel.bestScoreText(highScore)
+    }
+    
+    private func restart() {
+        renderer.reset()
+        currentScore = 0
+        highScore = NSUserDefaults.standardUserDefaults().highScore()
+        updateScores()
+        gameManager.startGame()
     }
     
     @IBAction func restartPressed(sender: AnyObject) {
-        gameOver()
+        let alertController = UIAlertController(title: "Restart Game", message: "Are you sure?", preferredStyle: .Alert)
+        alertController.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { (action) -> Void in
+            self.restart()
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "No", style: .Cancel, handler: { (action) -> Void in
+            // nothing
+        }))
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
     
     @IBAction func finishPressed(sender: AnyObject) {
-        gameOver()
-        dismissViewControllerAnimated(true, completion: nil)
+        let alertController = UIAlertController(title: "Finish Game", message: "Are you sure?", preferredStyle: .Alert)
+        alertController.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { (action) -> Void in
+            self.gameOver()
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "No", style: .Cancel, handler: { (action) -> Void in
+            // nothing
+        }))
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
     
     // MARK: GameBoardViewDelegate
@@ -87,11 +118,10 @@ class GameViewController: UIViewController, GameBoardViewDelegate, GameLogicMana
     
     func gameLogicManagerDidCountPoints(points: Int) {
         currentScore = points
-        currentScoreLabel.attributedText = viewModel.scoreText(points)
         if highScore < points {
             highScore = points
-            bestScoreLabel.attributedText = viewModel.bestScoreText(points)
         }
+        updateScores()
     }
     
     func gameLogicManagerDidGameOver(points: Int) {

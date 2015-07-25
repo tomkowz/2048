@@ -17,6 +17,14 @@ class GameBoardRenderer {
         self.boardView = boardView
     }
     
+    func reset() {
+        for view in tileViews {
+            view.removeFromSuperview()
+        }
+        
+        tileViews.removeAll(keepCapacity: true)
+    }
+    
     func addTile(tile: Tile) {
         let tileView = TileView.createView()
         tileView.position = tile.position

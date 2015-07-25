@@ -31,7 +31,9 @@ class GameLogicManager {
     private var points = 0
     private var updating: Bool = false
     
-    func prepare() {
+    private func prepare() {
+        updating = false
+        tiles.removeAll(keepCapacity: true)
         for row in 0..<boardColumns {
             for column in 0..<boardRows {
                 tiles.append(Tile(position: Position(x: row, y: column)))
@@ -42,6 +44,8 @@ class GameLogicManager {
     
     func startGame() {
         points = 0
+        prepare()
+        
         delegate?.gameLogicManagerDidAddTile(addRandomTile())
         delegate?.gameLogicManagerDidAddTile(addRandomTile())
     }
