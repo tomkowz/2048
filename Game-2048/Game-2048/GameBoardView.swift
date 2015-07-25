@@ -9,34 +9,45 @@
 import UIKit
 
 protocol GameBoardViewDelegate {
-    func gameBoardView(view: GameBoardView, didSwipeInDirection direction: UISwipeGestureRecognizerDirection)
+    func gameBoardView(view: GameBoardView, didSwipeInDirection direction: ShiftDirection)
 }
 
 class GameBoardView: UIView {
     
     var delegate: GameBoardViewDelegate?
+    private var startLocation: CGPoint = CGPointZero
+    
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        let touch = touches.first as! UITouch
+        startLocation = touch.locationInView(self)
+    }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        setupGestures()
-    }
-    
-    private func setupGestures() {
-        let selector = Selector("handleSwipe:")
-        let directions = [
-            UISwipeGestureRecognizerDirection.Left,
-            UISwipeGestureRecognizerDirection.Right,
-            UISwipeGestureRecognizerDirection.Down,
-            UISwipeGestureRecognizerDirection.Up]
+    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+        let touch = touches.first as! UITouch
+        let newLocation = touch.locationInView(self)
+        let prevLocation = startLocation
         
-        for direction in directions {
-            let recognizer = UISwipeGestureRecognizer(target: self, action: selector)
-            recognizer.direction = direction
-            addGestureRecognizer(recognizer)
+        var directionX: ShiftDirection!
+        if newLocation.x > prevLocation.x {
+            directionX = .Right
+        } else {
+            directionX = .Left
         }
-    }
-    
-    func handleSwipe(recognizer: UISwipeGestureRecognizer) {
-        delegate?.gameBoardView(self, didSwipeInDirection: recognizer.direction)
+        
+        var directionY: ShiftDirection!
+        if newLocation.y > prevLocation.y {
+            directionY = .Down
+        } else {
+            directionY = .Up
+        }
+        
+        var direction: ShiftDirection!
+        if abs(newLocation.x - prevLocation.x) > abs(newLocation.y - prevLocation.y) {
+            direction = directionX
+        } else {
+            direction = directionY
+        }
+        
+        delegate?.gameBoardView(self, didSwipeInDirection: direction)
     }
 }
