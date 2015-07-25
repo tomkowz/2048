@@ -13,6 +13,7 @@ protocol GameLogicManagerDelegate {
     func gameLogicManagerDidAddTile(tile: Tile?)
     func gameLogicManagerDidMoveTile(sourceTile: Tile, onTile destinationTile: Tile)
     func gameLogicManagerDidMoveTile(tile: Tile, position: Position)
+    func gameLogicManagerDidCountPoints(points: Int)
 }
 
 enum ShiftDirection {
@@ -26,6 +27,8 @@ class GameLogicManager {
     
     var delegate: GameLogicManagerDelegate?
     private var tiles = [Tile]()
+    private var points = 0
+    private var updating: Bool = false
     
     func prepare() {
         for row in 0..<boardColumns {
@@ -37,11 +40,15 @@ class GameLogicManager {
     }
     
     func startGame() {
+        points = 0
         delegate?.gameLogicManagerDidAddTile(addRandomTile())
         delegate?.gameLogicManagerDidAddTile(addRandomTile())
     }
     
     func shift(direction: ShiftDirection) {
+        if updating == true { return }
+        updating = true
+        
         var shifted = false
         
         let elements = (direction == .Right || direction == .Left) ? boardRows : boardColumns
@@ -80,6 +87,9 @@ class GameLogicManager {
                     // remove value from other tile.
                     if otherTile.value == currentTile.value {
                         moveOnSameTile(otherTile, onTile: currentTile)
+                        // Notify about additional points because of adding up values
+                        points += currentTile.value!
+                        delegate?.gameLogicManagerDidCountPoints(points)
                         shifted = true
                     } else if currentTile.value == nil {
                         moveOnEmptyTile(otherTile, destinationTile: currentTile)
@@ -100,6 +110,7 @@ class GameLogicManager {
         if shifted {
             delegate?.gameLogicManagerDidAddTile(addRandomTile(onEdge:true))
         }
+        updating = false
     }
     
     private func moveOnSameTile(sourceTile: Tile, onTile destinationTile: Tile) {

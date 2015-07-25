@@ -79,4 +79,8 @@ class GameViewController: UIViewController, GameBoardViewDelegate, GameLogicMana
     func gameLogicManagerDidMoveTile(tile: Tile, position: Position) {
         renderer.moveTile(tile, position: position)
     }
+    
+    func gameLogicManagerDidCountPoints(points: Int) {
+        currentScoreLabel.attributedText = viewModel.scoreText(points)
+    }
 }
