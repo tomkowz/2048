@@ -14,6 +14,7 @@ protocol GameLogicManagerDelegate {
     func gameLogicManagerDidMoveTile(sourceTile: Tile, onTile destinationTile: Tile)
     func gameLogicManagerDidMoveTile(tile: Tile, position: Position)
     func gameLogicManagerDidCountPoints(points: Int)
+    func gameLogicManagerDidGameOver(points: Int)
 }
 
 enum ShiftDirection {
@@ -104,12 +105,17 @@ class GameLogicManager {
             }
             
         }
-
+        
         // Every shift method returns boolean value if shift has been performed on
         // some at least one tile or not.
         if shifted {
             delegate?.gameLogicManagerDidAddTile(addRandomTile(onEdge:true))
         }
+        
+        if isGameOver() == true {
+            delegate?.gameLogicManagerDidGameOver(points)
+        }
+
         updating = false
     }
     
@@ -123,6 +129,36 @@ class GameLogicManager {
         destinationTile.value = sourceTile.value
         sourceTile.value = nil
         delegate?.gameLogicManagerDidMoveTile(sourceTile, position: destinationTile.position)
+    }
+    
+    private func isGameOver() -> Bool {
+        // Check if there is some empty tile.
+        // If not then check if there is a tile that have any move
+        if tiles.filter({$0.value == nil}).count == 0 {
+            for tile in tiles {
+                let v = tile.value! // value of current tile
+                
+                var upHasMove = false
+                var rightHasMove = false
+                var bottomHasMove = false
+                var leftHasMove = false
+                
+                if let up = tile.upTile?.value { upHasMove = v == up }
+                if let right = tile.rightTile?.value { rightHasMove = v == right }
+                if let bottom = tile.bottomTile?.value { bottomHasMove = v == bottom }
+                if let left = tile.leftTile?.value { leftHasMove = v == left }
+
+                if upHasMove || rightHasMove || bottomHasMove || leftHasMove {
+                    // Still some moves
+                    return false
+                }
+            }
+            
+            // This is game over
+            return true
+        }
+        
+        return false
     }
     
     private func addRandomTile(onEdge: Bool = false) -> Tile? {
@@ -145,7 +181,15 @@ class GameLogicManager {
             return emptyTiles[Int(arc4random_uniform(UInt32(emptyTiles.count)))].position
         } else if onEdge == true {
             // Get empty edge position
-            let emptyEdgeTiles = emptyTiles.filter({$0.position.x == 0 || $0.position.y == 0})
+            let emptyEdgeTiles = emptyTiles.filter {
+                let x = $0.position.x
+                let y = $0.position.y
+                
+                
+                let zero = x == 0 || y == 0
+                let max = x == self.boardRows - 1 || y == self.boardColumns - 1
+                return zero || max
+            }
             if emptyEdgeTiles.count > 0 {
                 return emptyEdgeTiles[Int(arc4random_uniform(UInt32(emptyEdgeTiles.count)))].position
             }

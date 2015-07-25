@@ -67,9 +67,7 @@ class GameViewController: UIViewController, GameBoardViewDelegate, GameLogicMana
     
     // MARK: GameLogicManagerDelegate
     func gameLogicManagerDidAddTile(tile: Tile?) {
-        if let tile = tile {
-            renderer.addTile(tile)
-        }
+        if let tile = tile { renderer.addTile(tile) }
     }
     
     func gameLogicManagerDidMoveTile(sourceTile: Tile, onTile destinationTile: Tile) {
@@ -82,5 +80,9 @@ class GameViewController: UIViewController, GameBoardViewDelegate, GameLogicMana
     
     func gameLogicManagerDidCountPoints(points: Int) {
         currentScoreLabel.attributedText = viewModel.scoreText(points)
+    }
+    
+    func gameLogicManagerDidGameOver(points: Int) {
+        println("Game Over! \(points)")
     }
 }
