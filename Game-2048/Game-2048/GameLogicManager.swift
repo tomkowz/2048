@@ -23,9 +23,7 @@ enum ShiftDirection {
 }
 
 class GameLogicManager {
-    
-    private let boardColumnCount = 4
-    private let boardRowCount = 4
+    private let boardWidth = 4
     private let winTileValue = 2048
     
     var delegate: GameLogicManagerDelegate?
@@ -36,8 +34,8 @@ class GameLogicManager {
     private func prepare() {
         updating = false
         tiles.removeAll(keepCapacity: true)
-        for row in 0..<boardColumnCount {
-            for column in 0..<boardRowCount {
+        for row in 0..<boardWidth {
+            for column in 0..<boardWidth {
                 tiles.append(Tile(position: Position(x: row, y: column)))
             }
         }
@@ -59,13 +57,10 @@ class GameLogicManager {
         updating = true
         
         var performedShift = false
-        let horizontally = (direction == .Right || direction == .Left)
-        
-        let elementCount = horizontally ? boardRowCount : boardColumnCount
-        for rowOrColumn in 0..<elementCount {
+        for rowOrColumn in 0..<boardWidth {
             // Get all tiles in a row or column.
             var tilesToCheck = tiles.filter {
-                return (horizontally ? $0.position.y : $0.position.x) == rowOrColumn
+                return ((direction == .Right || direction == .Left) ? $0.position.y : $0.position.x) == rowOrColumn
             }
             
             // When shifting right or down array need to be reversed.
@@ -178,7 +173,7 @@ class GameLogicManager {
                 let y = $0.position.y
                 
                 let zero = x == 0 || y == 0
-                let max = x == self.boardRowCount - 1 || y == self.boardColumnCount - 1
+                let max = x == self.boardWidth - 1 || y == self.boardWidth - 1
                 return zero || max
             }
             if emptyEdgeTiles.count > 0 {
@@ -189,7 +184,7 @@ class GameLogicManager {
     }
     
     private func refreshNeighborTiles() {
-        let boardRect = CGRectMake(CGFloat(0.0), CGFloat(0.0), CGFloat(boardColumnCount), CGFloat(boardRowCount))
+        let boardRect = CGRectMake(CGFloat(0.0), CGFloat(0.0), CGFloat(boardWidth), CGFloat(boardWidth))
         for tile in tiles {
             let up = Position(x: tile.position.x, y: tile.position.y - 1)
             if CGRectContainsPoint(boardRect, up.CGPointRepresentation) {
