@@ -58,8 +58,21 @@ class GameViewController: UIViewController, GameBoardViewDelegate, GameLogicMana
         gameManager.shiftTiles(direction)
     }
     
+    
     // MARK: GameLogicManagerDelegate
-    func gameLogicManager(manager: GameLogicManager, didUpdateTiles tiles: [Tile]) {
-        renderer.renderTiles(tiles)
+    func gameLogicManagerDidAddTile(tile: Tile?) {
+        if let tile = tile {
+            renderer.addTile(tile)
+        } else {
+            println("game over!")
+        }
+    }
+    
+    func gameLogicManagerDidMoveTile(sourceTile: Tile, onTile destinationTile: Tile) {
+        renderer.moveTile(sourceTile, onTile: destinationTile)
+    }
+    
+    func gameLogicManagerDidMoveTile(tile: Tile, position: CGPoint) {
+        renderer.moveTile(tile, position: position)
     }
 }

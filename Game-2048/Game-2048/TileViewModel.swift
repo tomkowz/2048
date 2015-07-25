@@ -10,7 +10,17 @@ import UIKit
 
 class TileViewModel {
     
-    func backgroundColor(value: Int) -> UIColor {
+    let value: Int
+    
+    init(value: Int) {
+        self.value = value
+    }
+    
+    var valueText: String {
+        return "\(value)"
+    }
+    
+    var backgroundColor: UIColor {
         switch value {
         case 2: return UIColor(red:0.5, green:0.77, blue:0.73, alpha:1)
         case 4: return UIColor(red:0.73, green:0.29, blue:0.42, alpha:1)

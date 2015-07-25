@@ -11,7 +11,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aBu-Po-JjP">
-                    <rect key="frame" x="22" y="17" width="11" height="22"/>
+                    <rect key="frame" x="0.0" y="0.0" width="55" height="55"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -19,8 +19,10 @@
             </subviews>
             <color key="backgroundColor" red="0.084052666080000005" green="0.92271056149999997" blue="0.62130671110000002" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstAttribute="centerY" secondItem="aBu-Po-JjP" secondAttribute="centerY" id="Q21-SU-0vH"/>
-                <constraint firstAttribute="centerX" secondItem="aBu-Po-JjP" secondAttribute="centerX" id="q3o-61-Qf6"/>
+                <constraint firstItem="aBu-Po-JjP" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="4zy-xr-qUo"/>
+                <constraint firstAttribute="trailing" secondItem="aBu-Po-JjP" secondAttribute="trailing" id="FqK-It-dxm"/>
+                <constraint firstAttribute="bottom" secondItem="aBu-Po-JjP" secondAttribute="bottom" id="Hyh-rh-YaR"/>
+                <constraint firstItem="aBu-Po-JjP" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="nGi-y7-1NS"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

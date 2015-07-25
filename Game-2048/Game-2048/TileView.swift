@@ -10,13 +10,13 @@ import UIKit
 
 class TileView: UIView {
     @IBOutlet var valueLabel: UILabel!
+    var position: CGPoint = CGPointZero
     
     class func createView() -> TileView {
         let nibContent = UINib(nibName: "TileView", bundle: nil).instantiateWithOwner(nil, options: nil)
         let view = nibContent.first as! TileView
        
         view.layer.cornerRadius = 6.0
-        
         return view
     }
 }

@@ -15,25 +15,119 @@ public func ==(lhs: CGPoint, rhs: CGPoint) -> Bool {
 }
 
 protocol GameLogicManagerDelegate {
-    func gameLogicManager(manager: GameLogicManager, didUpdateTiles tiles: [Tile])
+    func gameLogicManagerDidAddTile(tile: Tile?)
+    func gameLogicManagerDidMoveTile(sourceTile: Tile, onTile destinationTile: Tile)
+    func gameLogicManagerDidMoveTile(tile: Tile, position: CGPoint)
 }
 
 class GameLogicManager {
     
-    private let boardWidth = 4
-    private let boardHeight = 4
+    private let boardColumns = 4
+    private let boardRows = 4
     
     var delegate: GameLogicManagerDelegate?
     var tiles = [Tile]()
     
     func prepare() {
-        for row in 0..<boardWidth {
-            for column in 0..<boardHeight {
+        for row in 0..<boardColumns {
+            for column in 0..<boardRows {
                 tiles.append(Tile(position: CGPoint(x: row, y: column)))
             }
         }
         
-        let boardRect = CGRectMake(CGFloat(0.0), CGFloat(0.0), CGFloat(boardWidth - 1), CGFloat(boardHeight - 1))
+        refreshNeighborTiles()
+    }
+    
+    func startGame() {
+        delegate?.gameLogicManagerDidAddTile(addRandomTile())
+        delegate?.gameLogicManagerDidAddTile(addRandomTile())
+    }
+    
+    func shiftTiles(direction: UISwipeGestureRecognizerDirection) {
+        
+        switch direction {
+        case UISwipeGestureRecognizerDirection.Up: println("top")
+        case UISwipeGestureRecognizerDirection.Right: shiftRight()
+        case UISwipeGestureRecognizerDirection.Down: println("bottom")
+        case UISwipeGestureRecognizerDirection.Left: println("left")
+        default: break
+        }
+        
+        delegate?.gameLogicManagerDidAddTile(addRandomTile())
+    }
+    
+    
+    
+    func shiftRight() {
+        
+        // Modified tiles in this shift, e.g. when value has been added up.
+        var modified = [Tile]()
+        
+        for row in 0..<boardRows {
+            let tilesInRow = reverse(tiles.filter({Int($0.position.y) == row}))
+            for currentTile in tilesInRow {
+                // Do nothing if tile was modified already.
+                if find(modified, currentTile) != nil { continue }
+                
+                // Find first tile with some value
+                if let otherTile = tilesInRow.filter({$0.position.x < currentTile.position.x && $0.value != nil}).first {
+                    // If value is same increase value of current tile and 
+                    // remove value from other tile.
+                    if otherTile.value == currentTile.value {
+                        currentTile.value! *= 2
+                        otherTile.value = nil
+                        delegate?.gameLogicManagerDidMoveTile(otherTile, onTile: currentTile)
+                    } else if currentTile.value == nil {
+                        currentTile.value = otherTile.value
+                        otherTile.value = nil
+                        delegate?.gameLogicManagerDidMoveTile(otherTile, position: currentTile.position)
+                    }
+                }
+            }
+        }
+    }
+    
+    private func addRandomTile() -> Tile? {
+        if let position = generatePosition() {
+            let tile = tileForPosition(position)
+            tile.value = 2
+            return tile
+        }
+        
+        return nil
+    }
+    
+    private func tileForPosition(position: CGPoint) -> Tile {
+        return tiles.filter({$0.position == position}).first!
+    }
+    
+    private var freeTiles: Int {
+        return tiles.filter({$0.value == nil}).count
+    }
+    
+    private func generatePosition() -> CGPoint? {
+        if freeTiles == 0 { return nil }
+
+        func isEmpty(point: CGPoint) -> Bool {
+            return tileForPosition(point).value == nil
+        }
+        
+        var position: CGPoint?
+        while (position == nil) {
+            let x = Int(arc4random_uniform(UInt32(boardColumns)))
+            let y = Int(arc4random_uniform(UInt32(boardRows)))
+            var p = CGPoint(x: x, y: y)
+            if isEmpty(p) == true {
+                position = p
+                break
+            }
+        }
+        
+        return position
+    }
+    
+    private func refreshNeighborTiles() {
+        let boardRect = CGRectMake(CGFloat(0.0), CGFloat(0.0), CGFloat(boardColumns), CGFloat(boardRows))
         for tile in tiles {
             let up = CGPointMake(tile.position.x, tile.position.y - 1)
             if CGRectContainsPoint(boardRect, up) {
@@ -55,53 +149,5 @@ class GameLogicManager {
                 tile.leftTile = tileForPosition(left)
             }
         }
-    }
-    
-    func startGame() {
-        addRandomTile()
-        addRandomTile()
-        delegate?.gameLogicManager(self, didUpdateTiles: tiles)
-    }
-    
-    func shiftTiles(direction: UISwipeGestureRecognizerDirection) {
-        addRandomTile()
-        delegate?.gameLogicManager(self, didUpdateTiles: tiles)
-    }
-    
-    private func addRandomTile() {
-        if let position = generatePosition() {
-            let Tile = tileForPosition(position)
-            Tile.value = 2
-            print(Tile.position)
-        }
-    }
-    
-    private func tileForPosition(position: CGPoint) -> Tile {
-        return tiles.filter({$0.position == position}).first!
-    }
-    
-    private var freeTiles: Int {
-        return tiles.filter({$0.value == nil}).count
-    }
-    
-    private func generatePosition() -> CGPoint? {
-        if freeTiles == 0 { return nil }
-
-        func isEmpty(point: CGPoint) -> Bool {
-            return tileForPosition(point).value == nil
-        }
-        
-        var position: CGPoint?
-        while (position == nil) {
-            let x = Int(arc4random_uniform(UInt32(boardWidth)))
-            let y = Int(arc4random_uniform(UInt32(boardHeight)))
-            var p = CGPoint(x: x, y: y)
-            if isEmpty(p) == true {
-                position = p
-                break
-            }
-        }
-        
-        return position
     }
 }

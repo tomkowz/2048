@@ -9,7 +9,11 @@
 import Foundation
 import CoreGraphics
 
-class Tile {
+func ==(lhs: Tile, rhs: Tile) -> Bool {
+    return lhs.position == rhs.position
+}
+
+class Tile: Equatable {
     
     var position: CGPoint
     var value: Int?
@@ -23,4 +27,6 @@ class Tile {
         self.position = position
         self.value = value
     }
+    
+    
 }
