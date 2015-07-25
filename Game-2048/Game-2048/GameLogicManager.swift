@@ -15,18 +15,18 @@ public func ==(lhs: CGPoint, rhs: CGPoint) -> Bool {
 }
 
 protocol GameLogicManagerDelegate {
-    func gameLogicManager(manager: GameLogicManager, didUpdateTiles tiles: [TileNode])
+    func gameLogicManager(manager: GameLogicManager, didUpdateTiles tiles: [Tile])
 }
 
 class GameLogicManager {
     
     var delegate: GameLogicManagerDelegate?
-    var tileNodes = [TileNode]()
+    var tileNodes = [Tile]()
     
     func prepare() {
         for row in 0..<4 {
             for column in 0..<4 {
-                tileNodes.append(TileNode(position: CGPoint(x: row, y: column)))
+                tileNodes.append(Tile(position: CGPoint(x: row, y: column)))
             }
         }
     }
@@ -44,13 +44,13 @@ class GameLogicManager {
     
     private func addRandomTile() {
         if let position = generatePosition() {
-            let tileNode = tileForPosition(position)
-            tileNode.value = 2
-            print(tileNode.position)
+            let Tile = tileForPosition(position)
+            Tile.value = 2
+            print(Tile.position)
         }
     }
     
-    private func tileForPosition(position: CGPoint) -> TileNode {
+    private func tileForPosition(position: CGPoint) -> Tile {
         return tileNodes.filter({$0.position == position}).first!
     }
     

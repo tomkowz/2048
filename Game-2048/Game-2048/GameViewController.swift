@@ -21,10 +21,13 @@ class GameViewController: UIViewController, GameBoardViewDelegate, GameLogicMana
     
     private let gameManager = GameLogicManager()
     private let viewModel = GameViewModel()
+    private var renderer: GameBoardRenderer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         boardView.delegate = self
+        renderer = GameBoardRenderer(boardView: boardView)
+        
         gameManager.delegate = self
         gameManager.prepare()
         gameManager.startGame()
@@ -56,7 +59,7 @@ class GameViewController: UIViewController, GameBoardViewDelegate, GameLogicMana
     }
     
     // MARK: GameLogicManagerDelegate
-    func gameLogicManager(manager: GameLogicManager, didUpdateTiles tiles: [TileNode]) {
-        println("render me")
+    func gameLogicManager(manager: GameLogicManager, didUpdateTiles tiles: [Tile]) {
+        renderer.renderTiles(tiles)
     }
 }

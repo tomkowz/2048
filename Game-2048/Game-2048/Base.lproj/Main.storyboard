@@ -89,11 +89,19 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w8u-FS-F73" customClass="GameBoardView" customModule="Game_2048" customModuleProvider="target">
+                            <view autoresizesSubviews="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w8u-FS-F73" customClass="GameBoardView" customModule="Game_2048" customModuleProvider="target">
                                 <rect key="frame" x="178" y="178" width="244" height="244"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="game-board-bg" translatesAutoresizingMaskIntoConstraints="NO" id="0cd-x5-vDP">
+                                        <rect key="frame" x="0.0" y="0.0" width="244" height="244"/>
+                                    </imageView>
+                                </subviews>
                                 <constraints>
+                                    <constraint firstItem="0cd-x5-vDP" firstAttribute="top" secondItem="w8u-FS-F73" secondAttribute="top" id="6Cu-Cn-KTL"/>
                                     <constraint firstAttribute="height" constant="244" id="6M8-fZ-9kt"/>
+                                    <constraint firstAttribute="bottom" secondItem="0cd-x5-vDP" secondAttribute="bottom" id="8dB-te-etI"/>
+                                    <constraint firstItem="0cd-x5-vDP" firstAttribute="leading" secondItem="w8u-FS-F73" secondAttribute="leading" id="IBj-Sm-pxb"/>
+                                    <constraint firstAttribute="trailing" secondItem="0cd-x5-vDP" secondAttribute="trailing" id="TkW-tk-l5l"/>
                                     <constraint firstAttribute="width" constant="244" id="r7X-FT-HpJ"/>
                                 </constraints>
                             </view>
@@ -152,6 +160,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="game-board-bg" width="244" height="244"/>
         <image name="logo" width="105" height="100"/>
     </resources>
 </document>

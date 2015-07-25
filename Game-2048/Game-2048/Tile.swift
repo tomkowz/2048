@@ -1,5 +1,5 @@
 //
-//  TileNode.swift
+//  Tile.swift
 //  Game-2048
 //
 //  Created by Tomasz Szulc on 25/07/15.
@@ -9,7 +9,7 @@
 import Foundation
 import CoreGraphics
 
-class TileNode {
+class Tile {
     
     var position: CGPoint
     var value: Int?
