@@ -44,30 +44,32 @@ class GameLogicManager {
     }
     
     func shiftTiles(direction: UISwipeGestureRecognizerDirection) {
-        
+        var shifted = false
         switch direction {
-        case UISwipeGestureRecognizerDirection.Up: println("top")
-        case UISwipeGestureRecognizerDirection.Right: shiftRight()
-        case UISwipeGestureRecognizerDirection.Down: println("bottom")
-        case UISwipeGestureRecognizerDirection.Left: println("left")
-        default: break
+        case UISwipeGestureRecognizerDirection.Up:
+            println("top")
+        case UISwipeGestureRecognizerDirection.Right:
+            shifted = shiftRight()
+        case UISwipeGestureRecognizerDirection.Down:
+            println("bottom")
+        case UISwipeGestureRecognizerDirection.Left:
+            println("left")
+        default:
+            break
         }
         
-        delegate?.gameLogicManagerDidAddTile(addRandomTile())
+        // Every shift method returns boolean value if shift has been performed on 
+        // some at least one tile or not.
+        if shifted {
+            delegate?.gameLogicManagerDidAddTile(addRandomTile())
+        }
     }
     
-    
-    
-    func shiftRight() {
-        
-        // Modified tiles in this shift, e.g. when value has been added up.
-        var modified = [Tile]()
-        
+    func shiftRight() -> Bool {
+        var shifted = false
         for row in 0..<boardRows {
             let tilesInRow = reverse(tiles.filter({Int($0.position.y) == row}))
             for currentTile in tilesInRow {
-                // Do nothing if tile was modified already.
-                if find(modified, currentTile) != nil { continue }
                 
                 // Find first tile with some value
                 if let otherTile = tilesInRow.filter({$0.position.x < currentTile.position.x && $0.value != nil}).first {
@@ -77,14 +79,17 @@ class GameLogicManager {
                         currentTile.value! *= 2
                         otherTile.value = nil
                         delegate?.gameLogicManagerDidMoveTile(otherTile, onTile: currentTile)
+                        shifted = true
                     } else if currentTile.value == nil {
                         currentTile.value = otherTile.value
                         otherTile.value = nil
                         delegate?.gameLogicManagerDidMoveTile(otherTile, position: currentTile.position)
+                        shifted = true
                     }
                 }
             }
         }
+        return shifted
     }
     
     private func addRandomTile() -> Tile? {
