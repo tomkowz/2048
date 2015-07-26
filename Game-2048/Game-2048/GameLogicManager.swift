@@ -116,7 +116,7 @@ class GameLogicManager {
         // Every shift method returns boolean value if shift has been performed on
         // some at least one tile or not.
         if performedShift {
-            delegate?.gameLogicManagerDidAddTile(addRandomTile(onEdge:true))
+            delegate?.gameLogicManagerDidAddTile(addRandomTile())
         }
         
         if isGameOver() == true { delegate?.gameLogicManagerDidGameOver() }
@@ -148,9 +148,9 @@ class GameLogicManager {
         return true // Game Over
     }
     
-    private func addRandomTile(onEdge: Bool = false) -> Tile? {
+    private func addRandomTile() -> Tile? {
         // If found position then create tile
-        if let position = randomPosition(onEdge: onEdge) {
+        if let position = randomPosition() {
             let tile = tileForPosition(position)
             tile.value = 2
             return tile
@@ -162,25 +162,9 @@ class GameLogicManager {
         return tiles.filter({$0.position == position}).first!
     }
     
-    private func randomPosition(onEdge: Bool = false) -> Position? {
-        var emptyTiles = tiles.filter({$0.value == nil})
-        if onEdge == false && emptyTiles.count > 0 {
-            return emptyTiles[Int(arc4random_uniform(UInt32(emptyTiles.count)))].position
-        } else if onEdge == true {
-            // Get empty edge position
-            let emptyEdgeTiles = emptyTiles.filter {
-                let x = $0.position.x
-                let y = $0.position.y
-                
-                let zero = x == 0 || y == 0
-                let max = x == self.boardWidth - 1 || y == self.boardWidth - 1
-                return zero || max
-            }
-            if emptyEdgeTiles.count > 0 {
-                return emptyEdgeTiles[Int(arc4random_uniform(UInt32(emptyEdgeTiles.count)))].position
-            }
-        }
-        return nil
+    private func randomPosition() -> Position? {
+        let emptyTiles = tiles.filter({$0.value == nil})
+        return emptyTiles[Int(arc4random_uniform(UInt32(emptyTiles.count)))].position
     }
     
     private func refreshNeighborTiles() {
