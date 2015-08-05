@@ -39,25 +39,25 @@ class GameBoardRenderer {
         
         boardView!.addSubview(tileView)
         
-        UIView.animateWithDuration(0.25, animations: {
+        UIView.animateWithDuration(0.2, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
             var bounds = tileView.bounds
             bounds.size = self.tileSize
             tileView.bounds = bounds
-        }) { (finished) -> Void in
-            UIView.animateWithDuration(0.15) {
-                tileView.valueLabel.alpha = 1
-            }
+            }) { _ in
+                UIView.animateWithDuration(0.15) {
+                    tileView.valueLabel.alpha = 1
+                }
         }
         
         tileViews.append(tileView)
     }
     
-    func moveTile(sourceTile: Tile, onTile destinationTile: Tile) {
+    func moveTile(sourceTile: Tile, onTile destinationTile: Tile, completionBlock: (Void) -> Void) {
         let sourceTileView = tileViews.filter({$0.position == sourceTile.position}).first!
         let destinationTileView = tileViews.filter({$0.position == destinationTile.position}).first!
         boardView?.bringSubviewToFront(sourceTileView)
         
-        UIView.animateWithDuration(0.25, animations: {
+        UIView.animateWithDuration(0.2, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
             sourceTileView.center = destinationTileView.center
             sourceTileView.position = destinationTile.position
             destinationTileView.alpha = 0
@@ -72,15 +72,16 @@ class GameBoardRenderer {
             
             let index = find(self.tileViews, destinationTileView)
             self.tileViews.removeAtIndex(index!)
+            completionBlock()
         }
     }
     
-    func moveTile(tile: Tile, position: Position) {
+    func moveTile(tile: Tile, position: Position, completionBlock: (Void) -> Void) {
         let tileView = tileViews.filter({$0.position == tile.position}).first!
-        UIView.animateWithDuration(0.25, animations: {
+        UIView.animateWithDuration(0.2, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
             tileView.center = self.centerForTile(position)
             tileView.position = position
-        })
+            }) { _ in completionBlock() }
     }
     
     private func centerForTile(position: Position) -> CGPoint {

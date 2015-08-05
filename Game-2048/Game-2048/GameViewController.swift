@@ -108,12 +108,12 @@ class GameViewController: UIViewController, GameBoardViewDelegate, GameLogicMana
         if let tile = tile { renderer.addTile(tile) }
     }
     
-    func gameLogicManagerDidMoveTile(sourceTile: Tile, onTile destinationTile: Tile) {
-        renderer.moveTile(sourceTile, onTile: destinationTile)
+    func gameLogicManagerDidMoveTile(sourceTile: Tile, onTile destinationTile: Tile, completionBlock: (Void) -> Void) {
+        renderer.moveTile(sourceTile, onTile: destinationTile, completionBlock: completionBlock)
     }
     
-    func gameLogicManagerDidMoveTile(tile: Tile, position: Position) {
-        renderer.moveTile(tile, position: position)
+    func gameLogicManagerDidMoveTile(tile: Tile, position: Position, completionBlock: (Void) -> Void) {
+        renderer.moveTile(tile, position: position, completionBlock: completionBlock)
     }
     
     func gameLogicManagerDidCountPoints(points: Int) {

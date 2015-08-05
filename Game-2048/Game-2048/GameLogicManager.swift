@@ -11,8 +11,8 @@ import CoreGraphics
 
 protocol GameLogicManagerDelegate {
     func gameLogicManagerDidAddTile(tile: Tile?)
-    func gameLogicManagerDidMoveTile(sourceTile: Tile, onTile destinationTile: Tile)
-    func gameLogicManagerDidMoveTile(tile: Tile, position: Position)
+    func gameLogicManagerDidMoveTile(sourceTile: Tile, onTile destinationTile: Tile, completionBlock: (Void) -> Void)
+    func gameLogicManagerDidMoveTile(tile: Tile, position: Position, completionBlock: (Void) -> Void)
     func gameLogicManagerDidCountPoints(points: Int)
     func gameLogicManagerDidGameOver()
     func gameLogicManagerDidWinGame()
@@ -55,6 +55,12 @@ class GameLogicManager {
         // can collide with currently performing.
         if updating == true { return }
         updating = true
+        // When tile is moving onto another tile or into another place the manager 
+        // needs to wait before allowing next swipe to time when other modules 
+        // like renderer report they finished its job related to current user's
+        // shift. This is kind of semaphore. In another place the `update` 
+        // variable is set to `true` meaning, yes, I am waiting for next swipe.
+        var waitForSignalToContinue = false
         
         var performedShift = false
         for rowOrColumn in 0..<boardWidth {
@@ -65,7 +71,7 @@ class GameLogicManager {
             
             // When shifting right or down array need to be reversed.
             if direction == .Right || direction == .Down {
-                tilesToCheck = reverse(tilesToCheck)
+                tilesToCheck = tilesToCheck.reverse()
             }
             
             var tileIndex = 0
@@ -90,6 +96,7 @@ class GameLogicManager {
                     // If value is same increase value of current tile and
                     // remove value from other tile.
                     if otherTile.value == currentTile.value {
+                        waitForSignalToContinue = true
                         moveOnSameTile(otherTile, onTile: currentTile)
                         // Notify about additional points because of adding up values
                         pointCount += currentTile.value!
@@ -101,6 +108,7 @@ class GameLogicManager {
                         delegate?.gameLogicManagerDidCountPoints(pointCount)
                         performedShift = true
                     } else if currentTile.value == nil {
+                        waitForSignalToContinue = true
                         moveOnEmptyTile(otherTile, destinationTile: currentTile)
                         // if tile has been moved to another place repeat this step
                         // because maybe next tile has the same value and they
@@ -120,19 +128,26 @@ class GameLogicManager {
         }
         
         if isGameOver() == true { delegate?.gameLogicManagerDidGameOver() }
-        updating = false
+        
+        if waitForSignalToContinue == false {
+            updating = false
+        }
     }
     
     private func moveOnSameTile(sourceTile: Tile, onTile destinationTile: Tile) {
         destinationTile.value! *= 2
         sourceTile.value = nil
-        delegate?.gameLogicManagerDidMoveTile(sourceTile, onTile: destinationTile)
+        delegate?.gameLogicManagerDidMoveTile(sourceTile, onTile: destinationTile) {
+            self.updating = false
+        }
     }
     
     private func moveOnEmptyTile(sourceTile: Tile, destinationTile: Tile) {
         destinationTile.value = sourceTile.value
         sourceTile.value = nil
-        delegate?.gameLogicManagerDidMoveTile(sourceTile, position: destinationTile.position)
+        delegate?.gameLogicManagerDidMoveTile(sourceTile, position: destinationTile.position) {
+            self.updating = false
+        }
     }
     
     private func isGameOver() -> Bool {
